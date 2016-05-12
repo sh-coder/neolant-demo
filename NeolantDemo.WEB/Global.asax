@@ -1,0 +1,1 @@
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="NeolantDemo.WEB.WebApiApplication" Language="C#" %>
