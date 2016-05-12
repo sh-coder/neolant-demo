@@ -17,7 +17,7 @@
     <CleanupOutputPath>true</CleanupOutputPath>
     <HelpFileName>NeolantDemo</HelpFileName>
     <ImageFolderPath />
-    <Theme />
+    <Theme>FlatGray</Theme>
     <HtmlFormats>
       <HtmlHelp>true</HtmlHelp>
       <MSHelpViewer>false</MSHelpViewer>
@@ -44,7 +44,13 @@
     <ResolveCrefLinks>true</ResolveCrefLinks>
     <HeaderText />
     <FooterText />
-    <SelectedProjects />
+    <SelectedProjects>
+      <SelectedProject>NeolantDemo.BLL</SelectedProject>
+      <SelectedProject>NeolantDemo.Core</SelectedProject>
+      <SelectedProject>NeolantDemo.DAL</SelectedProject>
+      <SelectedProject>NeolantDemo.DAL.Tests</SelectedProject>
+      <SelectedProject>NeolantDemo.WEB</SelectedProject>
+    </SelectedProjects>
   </HelpConfiguration>
 </HelpConfigurations>
 <GeneralProperties>
