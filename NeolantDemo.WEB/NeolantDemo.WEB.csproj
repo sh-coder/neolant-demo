@@ -130,9 +130,10 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\NinjectBindingsModule.cs" />
     <Compile Include="Models\EdmModelFactory.cs" />
     <Compile Include="App_Start\FormatterConfig.cs" />
-    <Compile Include="App_Start\NinjectWebCommon.cs" />
+    <Compile Include="App_Start\NinjectConfiguration.cs" />
     <Compile Include="App_Start\RoutesConfig.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
