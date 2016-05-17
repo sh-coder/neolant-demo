@@ -1,4 +1,6 @@
-﻿namespace NeolantDemo.WEB
+﻿using System.Globalization;
+
+namespace NeolantDemo.WEB
 {
     /// <summary>
     /// Константы маршрутов контроллеров.
@@ -31,5 +33,34 @@
         private const string ParameterKindS = "{kindS}";
         internal const string ODataParameterInstanceS = "(" + ParameterInstanceS + ")";
         private const string ODataParameterKindS = "(" + KindS + "=" + ParameterKindS + ")";
+
+        /// <summary>
+        /// Получает маршрут к объектам, отфильтрованным по родителю и виду объекта + доп. фильтр. 
+        /// </summary>
+        /// <param name="instanceS">Идентификатор родителя объекта.</param>
+        /// <param name="kindS">Идентификатор вида объекта.</param>
+        /// <returns></returns>
+        public static string GetRouteFacilityWithPropertiesDescendantsFilterByKind(long instanceS, long? kindS)
+        {
+            string result = string.Format(
+                "{0}/{1}{2}", BaseUrl, ControllerFacilityWithProperties, RouteFacilityWithPropertiesDescendantsFilterByKind)
+                .Replace(ParameterInstanceS, instanceS.ToString(CultureInfo.InvariantCulture))
+                .Replace(ParameterKindS, kindS.HasValue ? kindS.ToString() : "null");
+
+            return result;
+        }
+
+        /// <summary>
+        /// Получает маршрут к иерархии объекта.
+        /// </summary>
+        /// <param name="instanceS">Идентификатор объекта.</param>
+        /// <returns></returns>
+        public static string GetRouteFacilityFunctionHierarchy(long instanceS)
+        {
+            string result = string.Format("{0}/{1}{2}", BaseUrl, ControllerFacilities, RouteFacilityFunctionHierarchy)
+                .Replace(ParameterInstanceS, instanceS.ToString(CultureInfo.InvariantCulture));
+
+            return result;
+        }        
     }
 }
