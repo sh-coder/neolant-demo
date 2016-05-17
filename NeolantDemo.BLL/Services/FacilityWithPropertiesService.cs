@@ -248,7 +248,14 @@ namespace NeolantDemo.BLL.Services
                     propertyDTO.StringValue = propertyDTO.DynamicValue;
                     return;
                 case NamedDefinedTypeDataType.DateTime:
-                    propertyDTO.DateTimeValue = DateTime.Parse(propertyDTO.DynamicValue);
+                    if (propertyDTO.DynamicValue is DateTime)
+                    {
+                        propertyDTO.DateTimeValue = propertyDTO.DynamicValue;
+                    }
+                    else
+                    {
+                        propertyDTO.DateTimeValue = DateTime.Parse(propertyDTO.DynamicValue);
+                    }
                     return;
                 case NamedDefinedTypeDataType.Double:
                     propertyDTO.FloatValue = propertyDTO.DynamicValue;
