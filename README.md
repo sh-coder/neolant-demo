@@ -32,7 +32,6 @@ curl -X POST --header 'Content-Type: application/json' --header 'Accept: applica
     },
     {
       "propertyKindS": 4986085573657906176,
-      "dateTimeValue": null,
       "dynamicValue": 12.0
     },
     {
@@ -63,3 +62,6 @@ https://dl.dropboxusercontent.com/u/65480636/neolant.bak.7z
 
 Ссылка на скрипты создания базы, восстановления из дампа + дамп:
 https://dl.dropboxusercontent.com/u/65480636/database.7z
+
+Ссылка на спецификацию OData:
+http://docs.oasis-open.org/odata/odata/v4.0/errata02/os/complete/part1-protocol/odata-v4.0-errata02-os-part1-protocol-complete.html
