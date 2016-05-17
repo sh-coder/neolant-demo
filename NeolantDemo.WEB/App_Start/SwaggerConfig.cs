@@ -1,10 +1,13 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Web.Http;
+using System.Web.Http.Description;
 using NeolantDemo.WEB;
 using Swashbuckle.Application;
 using Swashbuckle.OData;
+using Swashbuckle.Swagger;
 using WebActivatorEx;
 
 [assembly: PreApplicationStartMethod(typeof (SwaggerConfig), "Register")]
@@ -41,6 +44,8 @@ namespace NeolantDemo.WEB
                 c.SingleApiVersion(RoutesConfig.Version, "Sample API")
                     .Contact(contactBuilder => contactBuilder
                         .Url("https://github.com/sh-coder/neolant-demo"));
+
+                c.OperationFilter<RemoveQueryOptions>();
 
                 // If your API has multiple versions, use "MultipleApiVersions" instead of "SingleApiVersion".
                 // In this case, you must provide a lambda that tells Swashbuckle which actions should be
@@ -237,6 +242,18 @@ namespace NeolantDemo.WEB
                     //
                     //c.EnableOAuth2Support("test-client-id", "test-realm", "Swagger UI");
                 });
+        }
+
+        private class RemoveQueryOptions : IOperationFilter 
+        {
+            public void Apply(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
+            {
+                var parameter = operation.parameters.SingleOrDefault(x => x.name == "queryOptions");
+                if (parameter != null)
+                {
+                    operation.parameters.Remove(parameter);
+                }
+            }
         }
     }
 }

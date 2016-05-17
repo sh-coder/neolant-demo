@@ -3,8 +3,10 @@ using System.Linq;
 using System.Net;
 using System.Web.Http;
 using System.Web.OData;
+using System.Web.OData.Query;
 using System.Web.OData.Routing;
 using EmitMapper;
+using Microsoft.OData.Core;
 using NeolantDemo.BLL.DTO;
 using NeolantDemo.Core.Interfaces;
 using NeolantDemo.WEB.Models;
@@ -19,6 +21,12 @@ namespace NeolantDemo.WEB.Controllers
     public class FacilityWithPropertiesController : ODataController
     {
         private readonly IDisposableRepositoryWithHierarchy<FacilityWithPropertiesDTO> _repository;
+
+        private static readonly ODataValidationSettings ValidationSettings = new ODataValidationSettings
+        {
+            AllowedQueryOptions = AllowedQueryOptions.All,
+            AllowedFunctions = AllowedFunctions.AllFunctions,
+        };
 
         /// <summary>
         /// Конструктор.
@@ -92,15 +100,25 @@ namespace NeolantDemo.WEB.Controllers
         /// </summary>
         /// <param name="instanceS">Идентификатор объекта.</param>
         /// <param name="kindS">Идентификатор вида объекта.</param>
+        /// <param name="queryOptions">Опции запроса.</param>
         /// <returns>IHttpActionResult.</returns>
         [HttpGet]
         [ODataRoute(RoutesConfig.RouteFacilityWithPropertiesDescendantsFilterByKind)]
         [SwaggerResponseRemoveDefaults]
         [SwaggerResponse(HttpStatusCode.OK, Type = typeof (IQueryable<FacilityWithProperties>))]
         [SwaggerResponse(HttpStatusCode.NotFound)]
-        [EnableQuery]
-        public IHttpActionResult GetDescendants(long instanceS, long? kindS)
+        [SwaggerResponse(HttpStatusCode.BadRequest)]
+        public IHttpActionResult GetDescendants(long instanceS, long? kindS, ODataQueryOptions<FacilityWithProperties> queryOptions)
         {
+            try
+            {
+                queryOptions.Validate(ValidationSettings);
+            }
+            catch (ODataException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
             IEnumerable<FacilityWithPropertiesDTO> result = _repository.GetHierarchyFlatten(instanceS);
             if (result == null)
             {
@@ -122,6 +140,7 @@ namespace NeolantDemo.WEB.Controllers
                 .Map(resultList)
                 .AsQueryable();
 
+            mappedResult = (IQueryable<FacilityWithProperties>)(queryOptions.ApplyTo(mappedResult, new ODataQuerySettings()));
             return Ok(mappedResult);
         }
     }

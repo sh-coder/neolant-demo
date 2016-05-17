@@ -2,8 +2,10 @@
 using System.Net;
 using System.Web.Http;
 using System.Web.OData;
+using System.Web.OData.Query;
 using System.Web.OData.Routing;
 using EmitMapper;
+using Microsoft.OData.Core;
 using NeolantDemo.BLL.DTO;
 using NeolantDemo.Core.Interfaces;
 using NeolantDemo.WEB.Models;
@@ -18,6 +20,11 @@ namespace NeolantDemo.WEB.Controllers
     public class FacilityController : ODataController
     {
         private readonly IDisposableRepositoryWithHierarchy<FacilityDTO> _repository;
+        private static readonly ODataValidationSettings ValidationSettings = new ODataValidationSettings
+        {
+            MaxExpansionDepth = 10,
+            AllowedQueryOptions = AllowedQueryOptions.Expand | AllowedQueryOptions.Select
+        };
 
         /// <summary>
         /// Конструктор.
@@ -32,15 +39,24 @@ namespace NeolantDemo.WEB.Controllers
         /// Получение поддерева объектов по заданному объекту (только наименования и иерархия).
         /// </summary>
         /// <param name="instanceS">Идентификатор объекта.</param>
+        /// <param name="queryOptions">Опции запроса.</param>
         /// <returns></returns>
         [HttpGet]
         [ODataRoute(RoutesConfig.RouteFacilityFunctionHierarchy)]
-        [EnableQuery(MaxExpansionDepth = 10)]
         [SwaggerResponse(HttpStatusCode.OK, null, typeof (FacilityHierarchy))]
         [SwaggerResponse(HttpStatusCode.NotFound)]
         [SwaggerResponse(HttpStatusCode.NoContent)]
-        public IHttpActionResult GetHierarchy(long instanceS)
+        public IHttpActionResult GetHierarchy(long instanceS, ODataQueryOptions<FacilityHierarchy> queryOptions)
         {
+            try
+            {
+                queryOptions.Validate(ValidationSettings);
+            }
+            catch (ODataException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
             FacilityDTO result = _repository.GetHierarchy(instanceS);
             if (result == null)
             {
