@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Runtime.Serialization;
-using NeolantDemo.Core;
 
 namespace NeolantDemo.WEB.Models
 {
@@ -13,10 +11,6 @@ namespace NeolantDemo.WEB.Models
     [DataContract]
     public class Property
     {
-        private readonly string _dynamicPropertyName = Nameof<Property>.Property(i => i.DynamicValue);
-        private Dictionary<string, dynamic> _dynamicProperties;
-        private dynamic _dynamicValue;
-
         /// <summary>
         /// Получает или задаёт идентификатор вида атрибута/свойства.
         /// </summary>
@@ -30,35 +24,14 @@ namespace NeolantDemo.WEB.Models
         /// </summary>
         /// <value>Значение свойства.</value>
         [DataMember(Order = 2, IsRequired = true)]
-        public dynamic DynamicValue
-        {
-            get { return _dynamicValue; }
-            set
-            {
-                _dynamicValue = value;
-
-                string camelCase = char.ToLower(_dynamicPropertyName[0]) + _dynamicPropertyName.Substring(1);
-                _dynamicProperties = new Dictionary<string, dynamic> {{camelCase, _dynamicValue}};
-            }
-        }
+        public dynamic DynamicValue { get; set; }
 
         /// <summary>
         /// Контейнер для свойств, тип которых dynamic либо определяется в runtime.
         /// </summary>
         /// <value>Динамичные свойства.</value>
-        public Dictionary<string, dynamic> DynamicProperties
-        {
-            get
-            {
-                if (_dynamicProperties != null)
-                {
-                    _dynamicValue = _dynamicProperties.Values.FirstOrDefault();
-                }
-                return _dynamicProperties;
-            }
-            set { _dynamicProperties = value; }
-        }
-
+        public Dictionary<string, dynamic> DynamicProperties =>
+            new Dictionary<string, dynamic> { { "value", DynamicValue } };
 
         /// <summary>
         /// Нужно только для фильтрации. Для получения или установки данных использовать <see cref="DynamicValue" />
@@ -94,11 +67,11 @@ namespace NeolantDemo.WEB.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            
-            var other = ((Property) obj);
+
+            var other = ((Property)obj);
 
             return PropertyKindS == other.PropertyKindS
-                              && Equals(_dynamicValue, other._dynamicValue);
+                              && Equals(DynamicValue, other.DynamicValue);
         }
 
         /// <summary>
@@ -109,7 +82,7 @@ namespace NeolantDemo.WEB.Models
         {
             unchecked
             {
-                int hashCode = (_dynamicValue != null ? _dynamicValue.GetHashCode() : 0);
+                int hashCode = (DynamicValue != null ? DynamicValue.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ PropertyKindS.GetHashCode();
                 return hashCode;
             }
