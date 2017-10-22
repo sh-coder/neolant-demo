@@ -6,7 +6,7 @@ using System.Web.OData;
 using System.Web.OData.Query;
 using System.Web.OData.Routing;
 using EmitMapper;
-using Microsoft.OData.Core;
+using Microsoft.OData;
 using NeolantDemo.BLL.DTO;
 using NeolantDemo.Core.Interfaces;
 using NeolantDemo.WEB.Models;

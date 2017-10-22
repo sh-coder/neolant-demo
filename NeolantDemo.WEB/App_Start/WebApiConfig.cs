@@ -17,7 +17,7 @@ namespace NeolantDemo.WEB
         {
             config.MapHttpAttributeRoutes();
             config.SetTimeZoneInfo(TimeZoneInfo.Utc);
-            config.EnableUnqualifiedNameCall(true);
+            config.Filter().Expand().Select().OrderBy().MaxTop(null).Count();
             config.MapODataServiceRoute(
                 "odata",
                 RoutesConfig.BaseUrl,

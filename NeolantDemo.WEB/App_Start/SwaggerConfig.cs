@@ -183,7 +183,7 @@ namespace NeolantDemo.WEB
                 // alternative implementation for ISwaggerProvider with the CustomProvider option.
                 //
                 c.CustomProvider(
-                    defaultProvider => new ODataSwaggerProvider(defaultProvider, c).Configure(odataConfig =>
+                    defaultProvider => new ODataSwaggerProvider(defaultProvider, c, GlobalConfiguration.Configuration).Configure(odataConfig =>
                     {
                         // Set this flag to include navigation properties in your entity swagger models
                         //
