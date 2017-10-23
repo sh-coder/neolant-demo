@@ -24,19 +24,19 @@ curl -X POST --header 'Content-Type: application/json' --header 'Accept: applica
   "properties": [
     {
       "propertyKindS": 2048281056983318528,
-      "dynamicValue": "2016-02-10T01:02:18Z"
+      "value": "2016-02-10T01:02:18Z"
     },
     {
       "propertyKindS": 4539770964740669440,
-      "dynamicValue": 22.12345
+      "value": 22.12345
     },
     {
       "propertyKindS": 4986085573657906176,
-      "dynamicValue": 12.0
+      "value": 12.0
     },
     {
       "propertyKindS": 8775751229292694144,
-      "dynamicValue": "ЦВ"
+      "value": "ЦВ"
     }
   ]
 }' 'http://localhost:20449/odata/v1/FacilityWithProperties'
