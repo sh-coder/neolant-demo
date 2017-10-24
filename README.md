@@ -58,10 +58,7 @@ curl -X GET --header 'Accept: application/json' 'localhost:20449/odata/v1/Facili
 ```
 
 Ссылка на бекап базы:
-https://dl.dropboxusercontent.com/u/65480636/neolant.bak.7z
-
-Ссылка на скрипты создания базы, восстановления из дампа + дамп:
-https://dl.dropboxusercontent.com/u/65480636/database.7z
+https://box.delta.ge/owncloud/index.php/s/uAiDEarE70c4TGZ/download
 
 Ссылка на спецификацию OData:
 http://docs.oasis-open.org/odata/odata/v4.0/errata02/os/complete/part1-protocol/odata-v4.0-errata02-os-part1-protocol-complete.html
